@@ -1,0 +1,239 @@
+<% layout('/layouts/default.html', {title: '普通公司--产品信息表管理', libs: ['validate']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header with-border">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${eProductInfo.isNewRecord ? '新增普通公司--产品信息表' : '编辑普通公司--产品信息表'}
+			</div>
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+			</div>
+		</div>
+		<#form:form id="inputForm" model="${eProductInfo}" action="${ctx}/e/eProductInfo/save" method="post" class="form-horizontal">
+			<div class="box-body">
+				<div class="form-unit">基本信息</div>
+				<#form:hidden path="id"/>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 企业名称：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="ename" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 产品名称：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eproductname" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 产品图片：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eproductpicture" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 产品介绍：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eproductintroduction" maxlength="500" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box-footer">
+				<div class="row">
+					<div class="col-sm-offset-2 col-sm-10">
+						<% if (hasPermi('e:eProductInfo:edit')){ %>
+							<button type="submit" class="btn btn-sm btn-primary" id="btnSubmit"><i class="fa fa-check"></i> 保 存</button>&nbsp;
+						<% } %>
+						<button type="button" class="btn btn-sm btn-default" id="btnCancel" onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> 关 闭</button>
+					</div>
+				</div>
+			</div>
+		</#form:form>
+		<div id="product-panel" style="height:400px"></div>
+	</div>
+</div>
+<% } %>
+<script>
+var ename = $("#ename").val();
+var eproductname = $("#eproductname").val();
+var eproductpicture = $("#eproductpicture").val();
+var eproductintroduction = $("#eproductintroduction").val();
+
+/* 	var obj = $("#dataGrid");
+	//var idd=$("#dataGrid").getDataIDs();
+	var rowIds=$("#dataGrid").jqGrid('getDataIDs');
+	var arrayData = new Array();
+	if (rowIds.length > 0) {
+		
+		for (var i = 0; i < rowIds.length; i++) {
+			
+			  //rowData=obj.getRowData(rowid);//这里rowid=rowIds[i];
+			  arrayData.push(obj.getRowData(rowIds[i]));
+			  //alert(arrayData[i].estockholdername+arrayData[i].estockholdernumberofshares);
+			  
+		}
+	}; */
+
+	var myChart = echarts.init(document.getElementById("product-panel"));
+	var option = {
+		    tooltip: {
+		        show: false
+		    },
+		    legend: {
+		        x: "center",
+		        data: ["产品名称", "产品介绍"]
+		    },
+		    animation: false,
+		    series: [{
+		        categories: [{
+		            name: '产品名称',
+		            itemStyle: {
+		                normal: {
+		                    color: "#009800",
+		                }
+		            }
+		        }, {
+		            name: '产品介绍',
+		            itemStyle: {
+		                normal: {
+		                    color: "#4592FF",
+		                }
+		            }
+		        }],
+		        type: 'graph',
+		        layout: 'force',
+		        symbol: "circle",
+		        symbolSize: 50,
+		        roam: true, //禁止用鼠标滚轮缩小放大效果
+		        edgeSymbol: ['circle', 'arrow'],
+		        edgeSymbolSize: [0, 10],
+		        // 连接线上的文字
+		        focusNodeAdjacency: true, //划过只显示对应关系
+		        edgeLabel: {
+		            normal: {
+		                show: true,
+		                textStyle: {
+		                    fontSize: 20
+		                },
+		                formatter: "{c}"
+		            }
+		        },
+		        categories: [{
+		            name: '产品名称',
+		            itemStyle: {
+		                normal: {
+		                    color: "#009800",
+		                }
+		            }
+		        }, {
+		            name: '产品介绍',
+		            itemStyle: {
+		                normal: {
+		                    color: "#4592FF",
+		                }
+		            }
+		        }],
+		        lineStyle: {
+		            normal: {
+		                opacity: 1,
+		                width: 2,
+		                curveness: 0
+		            }
+		        },
+		        // 圆圈内的文字
+		        label: {
+		            normal: {
+		                show: true
+		            }
+		        },
+		        force: {
+		            repulsion: 5000
+		        },
+		        data: [{
+		            name: ename,
+		            symbol: '',
+		            itemStyle: {
+		                normal: {
+		                    color: '#f90', //圆点的颜色
+		                    label: {
+		                        position: 'bottom',
+		                        textStyle: {
+		                            color: '#f90'
+		                        }
+		                    }
+		                }
+		            },
+
+		        }, {
+		            name: eproductname,
+		            category: 1,
+		            itemStyle: {
+		                normal: {
+		                    color: '#090',
+		                },
+		                emphasis: {
+		                    color: "#000"
+		                }
+		            }
+		        }, {
+		            name: eproductintroduction,
+		            category: 1,
+		            draggable: true,
+		        }],
+		        links: [{
+		            source: ename,
+		            target: eproductname,
+		            value: "产品名称",
+		            lineStyle: {
+		                normal: {
+		                    color: '#38f',
+		                    curveness: 0 // 线的弯曲度 0-1之间 越大则歪曲度更大
+		                }
+		            },
+		            label: {
+		                normal: {
+		                    textStyle: {
+		                        color: '#07ac72'
+		                    }
+		                }
+		            }
+		        }, {
+		            source: ename,
+		            target: eproductintroduction,
+		            value: "产品介绍"
+		        }]
+		    }]
+		};
+		myChart.setOption(option);
+
+	//关系图
+$("#inputForm").validate({
+	submitHandler: function(form){
+		js.ajaxSubmitForm($(form), function(data){
+			js.showMessage(data.message);
+			if(data.result == Global.TRUE){
+				js.closeCurrentTabPage(function(contentWindow){
+					contentWindow.page();
+				});
+			}
+		}, "json");
+    }
+});
+
+</script>

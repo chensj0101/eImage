@@ -1,0 +1,172 @@
+<% layout('/layouts/default.html', {title: '企业概况管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 企业概况管理
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+				<% if(hasPermi('e:eOverviewInfo:edit')){ %>
+					<a href="${ctx}/e/eOverviewInfo/form" class="btn btn-default btnTool" title="新增企业概况"><i class="fa fa-plus"></i> 新增</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${eOverviewInfo}" action="${ctx}/e/eOverviewInfo/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">企业名称：</label>
+					<div class="control-inline">
+						<#form:input path="ename" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">企业英文名称：</label>
+					<div class="control-inline">
+						<#form:input path="eenglishname" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">企业董事长：</label>
+					<div class="control-inline">
+						<#form:input path="echairman" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">企业法人代表：</label>
+					<div class="control-inline">
+						<#form:input path="elealperson" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">企业总经理：</label>
+					<div class="control-inline">
+						<#form:input path="egeneralmanager" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">成立日期：</label>
+					<div class="control-inline">
+						<#form:input path="efounddate" readonly="true" maxlength="20" class="form-control Wdate-date"
+							dataFormat="date" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">上市日期：</label>
+					<div class="control-inline">
+						<#form:input path="elistingdate" readonly="true" maxlength="20" class="form-control Wdate-date"
+							dataFormat="date" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">网上发行日期：</label>
+					<div class="control-inline">
+						<#form:input path="eonlinereleasetime" readonly="true" maxlength="20" class="form-control Wdate-date"
+							dataFormat="date" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">注册资本：</label>
+					<div class="control-inline">
+						<#form:input path="eregisteredcapital" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">管理人员人数：</label>
+					<div class="control-inline">
+						<#form:input path="enumberofmanager" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">员工人数：</label>
+					<div class="control-inline">
+						<#form:input path="enumberofstaff" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">区域：</label>
+					<div class="control-inline">
+						<#form:input path="earea" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">注册地址：</label>
+					<div class="control-inline">
+						<#form:input path="eregisteredaddress" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">办公地址：</label>
+					<div class="control-inline">
+						<#form:input path="eofficeaddress" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">联系电话：</label>
+					<div class="control-inline">
+						<#form:input path="eofficephone" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">电子邮箱：</label>
+					<div class="control-inline">
+						<#form:input path="eemailaddress" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">网址：</label>
+					<div class="control-inline">
+						<#form:input path="eweburl" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">传真：</label>
+					<div class="control-inline">
+						<#form:input path="efaxno" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">企业简介：</label>
+					<div class="control-inline">
+						<#form:input path="eintroduction" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'企业名称', name:'ename', index:'a.ename', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/e/eOverviewInfo/form?ename='+row.ename+'" class="btnList" data-title="编辑企业概况">'+(val||row.id)+'</a>';
+		}},
+		{header:'企业英文名称', name:'eenglishname', index:'a.eenglishname', width:150, align:"left"},
+		{header:'企业董事长', name:'echairman', index:'a.echairman', width:150, align:"left"},
+		{header:'企业法人代表', name:'elealperson', index:'a.elealperson', width:150, align:"left"},
+		{header:'企业总经理', name:'egeneralmanager', index:'a.egeneralmanager', width:150, align:"left"},
+		{header:'操作', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('e:eOverviewInfo:edit')){ %>
+				actions.push('<a href="${ctx}/e/eOverviewInfo/form?ename='+row.ename+'" class="btnList" title="编辑企业概况"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/e/eOverviewInfo/delete?ename='+row.ename+'" class="btnList" title="删除企业概况" data-confirm="确认要删除该企业概况吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

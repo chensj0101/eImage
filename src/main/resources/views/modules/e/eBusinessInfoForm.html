@@ -1,0 +1,1002 @@
+<% layout('/layouts/default.html', {title: '企业工商信息', libs: ['validate']}){ %>
+<div class="main-content">
+
+	<div class="box box-main">
+	<div id="chart-panel" style="width:800px;height:600px"></div>
+		<div class="box-header with-border">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 企业工商信息
+			</div>
+			<!-- <div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+			</div> -->
+		</div>
+		<#form:form id="inputForm" model="${eBusinessInfo}" action="${ctx}/e/eBusinessInfo/save" method="post" class="form-horizontal">
+			<div class="box-body">
+				<div class="form-unit">基本信息</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required ">*</span> 企业名称：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+
+								<#form:hidden path="isNewRecord"/>
+								<#form:input path="ename" maxlength="255" readonly="${!eBusinessInfo.isNewRecord}" class="form-control required"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 统一社会信用代码：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eunifiedsocialcreditcode" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 组织机构代码：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eorganizationcode" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 注册号：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eregistrationid" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 经营状态：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="emanagestatus" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 所属行业：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eclass" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 成立日期：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eregisterdate" readonly="true" maxlength="20" class="form-control Wdate"
+									dataFormat="date" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 公司类型：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="etype" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 经营期限：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="ebusnissallotedtime" readonly="true" maxlength="20" class="form-control Wdate"
+									dataFormat="date" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 法定代表人：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="elegalrepresentative" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 发照日期：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eissueofdate" readonly="true" maxlength="20" class="form-control Wdate"
+									dataFormat="date" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 注册资本：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eregisteredcapital" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 登记机关：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eregistrationauthority" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 企业地址：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eaddress" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 经营范围：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="escopeofbusiness" maxlength="500" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box-footer">
+				<div class="row">
+					<div class="col-sm-offset-2 col-sm-10">
+						<% if (hasPermi('e:eBusinessInfo:edit')){ %>
+							<button type="submit" class="btn btn-sm btn-primary" id="btnSubmit"><i class="fa fa-check"></i> 保 存</button>&nbsp;
+						<% } %>
+						<button type="button" class="btn btn-sm btn-default" id="btnCancel" onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> 关 闭</button>
+					</div>
+				</div>
+			</div>
+		</#form:form>
+	</div>
+</div>
+<% } %>
+<script>
+//关系图
+var ename = $("#ename").val();
+
+var myChart = echarts.init(document.getElementById("chart-panel"));
+option = {
+	    title: {
+	        text: '企业信息结构'
+	    },
+	    tooltip: {},
+	    animationDurationUpdate: 1500,
+	    animationEasingUpdate: 'quinticInOut',
+	    series : [
+	        {
+	            type: 'graph',
+	            layout: 'force',
+	            symbolSize: 100,
+	            roam: true,
+	label: {
+	    normal: {
+	        show:true,
+	        formatter:  function( data ) {
+	            return '{green|\n' + data.name + '}';
+	        },
+	        rich: {
+	            /* gray: {
+	                color: 'gray'
+	            }, */
+	            /* green: {
+	                color: 'green'
+	            } */
+	        }
+	    }
+	},
+	            //edgeSymbol: ['circle', 'arrow'],
+	            edgeSymbolSize: [4, 10],
+	            edgeLabel: {
+	                normal: {
+	                    textStyle: {
+	                        fontSize: 20
+	                    }
+	                }
+	            },
+	            data: [{
+	                name: ename,
+	                x: 360,
+	                y: 100,
+	                //symbolSize: 50,
+	            }, {
+	                name: '工商信息',
+	                x: 700,
+	                y: 219
+	            }, {
+	                name: '主要人员',
+	                x: 550,
+	                y: 100
+	            }, {
+	                name: '发起人/股东',
+	                x: 550,
+	                y: 300
+	            }, {
+	                name: '产品信息',
+	                x: 450,
+	                y: 300
+	            }, {
+	                name: '商标信息',
+	                x: 250,
+	                y: 300
+	            }, {
+	                name: '专利信息',
+	                x: 250,
+	                y: 300
+	            }, {
+	                name: '资质认证',
+	                x: 250,
+	                y: 300
+	            }],
+	            // links: [],
+	            links: [{
+	                source: ename,
+	                target: '工商信息'
+	            }, {
+	                source: ename,
+	                target: '主要人员'
+	            }, {
+	                source: ename,
+	                target: '发起人/股东'
+	            }, {
+	                source: ename,
+	                target: '产品信息'
+	            }, {
+	                source: ename,
+	                target: '商标信息'
+	            }, {
+	                source: ename,
+	                target: '专利信息'
+	            }, {
+	                source: ename,
+	                target: '资质认证'
+	            }],
+	            animation:true,
+	            markArea:{
+	                animation:false
+	            },
+	            markPoint:{
+	                symbol: 'arrow',
+	            },
+	                        markLine:{
+	                symbol: 'arrow',
+	                precision:5
+	            },
+	               
+	                        lineStyle: {
+	                normal: {
+	                    opacity: 0.9,
+	                    width: 2,
+	                    curveness: 0
+	                }
+	            },
+	                            force: {
+	                    repulsion:[0, 500],
+	                    edgeLength: [0, 200],
+	                    layoutAnimation:false,
+	                    //initLayout:'circle',
+	                    gravity:0
+	                }
+	        }
+	    ]
+	};
+myChart.setOption(option);
+//关系图
+$("#inputForm").validate({
+	submitHandler: function(form){
+		js.ajaxSubmitForm($(form), function(data){
+			js.showMessage(data.message);
+			if(data.result == Global.TRUE){
+				js.closeCurrentTabPage(function(contentWindow){
+					contentWindow.page();
+				});
+			}
+		}, "json");
+    }
+});
+</script>
+<% layout('/layouts/default.html', {title: '主要人员信息', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 主要人员信息
+			</div>
+			<!-- <div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+				<% if(hasPermi('e:eKeyPerson:edit')){ %>
+					<a href="${ctx}/e/eKeyPerson/form" class="btn btn-default btnTool" title="新增普通公司--主要人员表"><i class="fa fa-plus"></i> 新增</a>
+				<% } %>
+			</div> -->
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm1" model="${eKeyPerson}" action="${ctx}/e/eKeyPerson/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">企业名称：</label>
+					<div class="control-inline">
+						<#form:input path="ename" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">人员名称：</label>
+					<div class="control-inline">
+						<#form:input path="epersonname" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">职位：</label>
+					<div class="control-inline">
+						<#form:input path="epersonposition" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<!-- <div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div> -->
+			</#form:form>
+			<table id="dataGridOfEKeyPerson"></table>
+			<button onclick="EKeyPerson()">画像展示</button>
+			<div id="EKeyPerson-panel" style="width:800px;height:600px"></div>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+
+
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 发起人/股东信息
+			</div>
+			<!-- <div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+				<% if(hasPermi('e:eSponsors:edit')){ %>
+					<a href="${ctx}/e/eSponsors/form" class="btn btn-default btnTool" title="新增发起人/股东信息"><i class="fa fa-plus"></i> 新增</a>
+				<% } %>
+			</div> -->
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm2" model="${eSponsors}" action="${ctx}/e/eSponsors/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">企业名称：</label>
+					<div class="control-inline">
+						<#form:input path="ename" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">发起人/股东类型：</label>
+					<div class="control-inline">
+						<#form:input path="esponsorstype" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">发起人名称：</label>
+					<div class="control-inline">
+						<#form:input path="esponsorsname" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">认缴出资：</label>
+					<div class="control-inline">
+						<#form:input path="esubscribedcapital" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">实际出资：</label>
+					<div class="control-inline">
+						<#form:input path="eactualcapital" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<!-- <div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div> -->
+			</#form:form>
+			<table id="dataGridOfESponsors"></table>
+			<button onclick="Sponsors()">画像展示</button>
+			<div id="Sponsors-panel" style="width:800px;height:600px"></div>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGridOfEKeyPerson').dataGrid({
+	searchForm: $("#searchForm1"),
+	columnModel: [
+		{header:'企业名称', name:'ename', index:'a.ename', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/e/eKeyPerson/form?id='+row.id+'" class="btnList" data-title="编辑普通公司--主要人员表">'+(val||row.id)+'</a>';
+		}},
+		{header:'人员名称', name:'epersonname', index:'a.epersonname', width:150, align:"left"},
+		{header:'职位', name:'epersonposition', index:'a.epersonposition', width:150, align:"left"},
+		/* {header:'操作', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('e:eKeyPerson:edit')){ %>
+				actions.push('<a href="${ctx}/e/eKeyPerson/form?id='+row.id+'" class="btnList" title="编辑普通公司--主要人员表"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/e/eKeyPerson/delete?id='+row.id+'" class="btnList" title="删除普通公司--主要人员表" data-confirm="确认要删除该主要人员吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}} */
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+function EKeyPerson(){
+	var obj = $("#dataGridOfEKeyPerson");
+	//var idd=$("#dataGrid").getDataIDs();
+	var rowIds=$("#dataGridOfEKeyPerson").jqGrid('getDataIDs');
+	var arrayData = new Array();
+	if (rowIds.length > 0) {
+		
+		for (var i = 0; i < rowIds.length; i++) {
+			
+			  //rowData=obj.getRowData(rowid);//这里rowid=rowIds[i];
+			  arrayData.push(obj.getRowData(rowIds[i]));
+			  //alert(arrayData[i].estockholdername+arrayData[i].estockholdernumberofshares);
+			  
+		}
+	};
+
+var myChart = echarts.init(document.getElementById("EKeyPerson-panel"));
+//app.title = '环形图';
+
+option = {
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        x: 'left',
+        data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+    },
+    series: [
+        {
+            name:'主要人员',
+            type:'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+                normal: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: false
+                }
+            },
+            data:(function(){
+                var arrNum = [];
+                
+                for (var i = 0; i < arrayData.length; i++) {
+                	  var nameandposion = arrayData[i].epersonname + '('+arrayData[i].epersonposition+')';
+                      arrNum.push({"value": 1,"name":nameandposion});
+                      }
+                       
+                return arrNum; 
+               })(),
+        }
+    ]
+};
+myChart.setOption(option);
+}
+</script>
+<script>
+// 初始化DataGrid对象
+$('#dataGridOfESponsors').dataGrid({
+	searchForm: $("#searchForm2"),
+	columnModel: [
+		{header:'企业名称', name:'ename', index:'a.ename', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/e/eSponsors/form?id='+row.id+'" class="btnList" data-title="编辑发起人/股东信息">'+(val||row.id)+'</a>';
+		}},
+		{header:'发起人/股东类型', name:'esponsorstype', index:'a.esponsorstype', width:150, align:"left"},
+		{header:'发起人名称', name:'esponsorsname', index:'a.esponsorsname', width:150, align:"left"},
+		{header:'认缴出资', name:'esubscribedcapital', index:'a.esubscribedcapital', width:150, align:"left"},
+		{header:'实际出资', name:'eactualcapital', index:'a.eactualcapital', width:150, align:"left"},
+		/* {header:'操作', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('e:eSponsors:edit')){ %>
+				actions.push('<a href="${ctx}/e/eSponsors/form?id='+row.id+'" class="btnList" title="编辑发起人/股东信息"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/e/eSponsors/delete?id='+row.id+'" class="btnList" title="删除发起人/股东信息" data-confirm="确认要删除该发起人/股东信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}} */
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+function Sponsors(){
+	var obj = $("#dataGridOfESponsors");
+	//var idd=$("#dataGrid").getDataIDs();
+	var rowIds=$("#dataGridOfESponsors").jqGrid('getDataIDs');
+	var arrayData = new Array();
+	if (rowIds.length > 0) {
+		
+		for (var i = 0; i < rowIds.length; i++) {
+			
+			  //rowData=obj.getRowData(rowid);//这里rowid=rowIds[i];
+			  arrayData.push(obj.getRowData(rowIds[i]));
+			  //alert(arrayData[i].estockholdername+arrayData[i].estockholdernumberofshares);
+			  
+		}
+	};
+
+var myChart = echarts.init(document.getElementById("Sponsors-panel"));
+//app.title = '环形图';
+
+option = {
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        x: 'left',
+        data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+    },
+    series: [
+        {
+            name:'股东信息',
+            type:'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+                normal: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: false
+                }
+            },
+            data:(function(){
+                var arrNum = [];
+                
+                for (var i = 0; i < arrayData.length; i++) {
+                	var nameandposion = arrayData[i].esponsorsname + '(实际出资)';
+                      arrNum.push({"value": arrayData[i].eactualcapital,"name":nameandposion});
+                      }
+                       
+                return arrNum; 
+               })(),
+        }
+    ]
+};
+myChart.setOption(option);
+
+} 
+//关系图
+</script>
+<% layout('/layouts/default.html', {title: '产品信息', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 产品信息
+			</div>
+			<!-- <div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+				<% if(hasPermi('e:eProductInfo:edit')){ %>
+					<a href="${ctx}/e/eProductInfo/form" class="btn btn-default btnTool" title="新增产品信息"><i class="fa fa-plus"></i> 新增</a>
+				<% } %>
+			</div> -->
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm3" model="${eProductInfo}" action="${ctx}/e/eProductInfo/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">企业名称：</label>
+					<div class="control-inline">
+						<#form:input path="ename" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">产品名称：</label>
+					<div class="control-inline">
+						<#form:input path="eproductname" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">产品图片：</label>
+					<div class="control-inline">
+						<#form:input path="eproductpicture" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">产品介绍：</label>
+					<div class="control-inline">
+						<#form:input path="eproductintroduction" maxlength="500" class="form-control width-120"/>
+					</div>
+				</div>
+				<!-- <div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div> -->
+			</#form:form>
+			<table id="dataGridOfEProductInfo"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGridOfEProductInfo').dataGrid({
+	searchForm: $("#searchForm3"),
+	columnModel: [
+		{header:'企业名称', name:'ename', index:'a.ename', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/e/eProductInfo/form?id='+row.id+'" class="btnList" data-title="编辑普通公司--产品信息表">'+(val||row.id)+'</a>';
+		}},
+		{header:'产品名称', name:'eproductname', index:'a.eproductname', width:150, align:"left"},
+		{header:'产品图片', name:'eproductpicture', index:'a.eproductpicture', width:150, align:"left"},
+		{header:'产品介绍', name:'eproductintroduction', index:'a.eproductintroduction', width:150, align:"left"},
+		/* {header:'操作', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('e:eProductInfo:edit')){ %>
+				actions.push('<a href="${ctx}/e/eProductInfo/form?id='+row.id+'" class="btnList" title="编辑普通公司--产品信息表"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/e/eProductInfo/delete?id='+row.id+'" class="btnList" title="删除普通公司--产品信息表" data-confirm="确认要删除该普通公司--产品信息表吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}} */
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>
+<% layout('/layouts/default.html', {title: '商标信息', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 商标信息
+			</div>
+			<!-- <div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+				<% if(hasPermi('e:eLogoInfo:edit')){ %>
+					<a href="${ctx}/e/eLogoInfo/form" class="btn btn-default btnTool" title="新增商标信息"><i class="fa fa-plus"></i> 新增</a>
+				<% } %>
+			</div> -->
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm4" model="${eLogoInfo}" action="${ctx}/e/eLogoInfo/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">企业名称：</label>
+					<div class="control-inline">
+						<#form:input path="ename" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">商标名称：</label>
+					<div class="control-inline">
+						<#form:input path="elogoname" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">商标图片：</label>
+					<div class="control-inline">
+						<#form:input path="elogopicture" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">商标状态：</label>
+					<div class="control-inline">
+						<#form:input path="elogostatus" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">申请时间：</label>
+					<div class="control-inline">
+						<#form:input path="elogoapplicationdate" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">注册号：</label>
+					<div class="control-inline">
+						<#form:input path="elogoregistrationid" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">商标类型：</label>
+					<div class="control-inline">
+						<#form:input path="elogotype" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">详情网址：</label>
+					<div class="control-inline">
+						<#form:input path="elogodetailweb" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<!-- <div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div> -->
+			</#form:form> 
+			<table id="dataGridOfELogoInfo"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGridOfELogoInfo').dataGrid({
+	searchForm: $("#searchForm4"),
+	columnModel: [
+		{header:'企业名称', name:'ename', index:'a.ename', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/e/eLogoInfo/form?id='+row.id+'" class="btnList" data-title="编辑商标信息">'+(val||row.id)+'</a>';
+		}},
+		{header:'商标名称', name:'elogoname', index:'a.elogoname', width:150, align:"left"},
+		{header:'商标图片', name:'elogopicture', index:'a.elogopicture', width:150, align:"left"},
+		{header:'商标状态', name:'elogostatus', index:'a.elogostatus', width:150, align:"left"},
+		{header:'申请时间', name:'elogoapplicationdate', index:'a.elogoapplicationdate', width:150, align:"center"},
+		{header:'注册号', name:'elogoregistrationid', index:'a.elogoregistrationid', width:150, align:"left"},
+		{header:'商标类型', name:'elogotype', index:'a.elogotype', width:150, align:"left"},
+		{header:'详情网址', name:'elogodetailweb', index:'a.elogodetailweb', width:150, align:"left"},
+		/* {header:'操作', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('e:eLogoInfo:edit')){ %>
+				actions.push('<a href="${ctx}/e/eLogoInfo/form?id='+row.id+'" class="btnList" title="编辑商标信息"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/e/eLogoInfo/delete?id='+row.id+'" class="btnList" title="删除商标信息" data-confirm="确认要删除该商标信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}} */
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>
+<% layout('/layouts/default.html', {title: '专利信息', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 专利信息
+			</div>
+			<!-- <div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+				<% if(hasPermi('e:ePatentsInfo:edit')){ %>
+					<a href="${ctx}/e/ePatentsInfo/form" class="btn btn-default btnTool" title="新增普通公司--专利信息表"><i class="fa fa-plus"></i> 新增</a>
+				<% } %>
+			</div> -->
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm5" model="${ePatentsInfo}" action="${ctx}/e/ePatentsInfo/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">企业名称：</label>
+					<div class="control-inline">
+						<#form:input path="ename" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">专利类型：</label>
+					<div class="control-inline">
+						<#form:input path="epatenttype" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">申请公布号：</label>
+					<div class="control-inline">
+						<#form:input path="epatentpublishedapplicationnumber" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">公布日期：</label>
+					<div class="control-inline">
+						<#form:input path="epatentpublisheddate" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">专利详情网址：</label>
+					<div class="control-inline">
+						<#form:input path="epatentdetail" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">摘要：</label>
+					<div class="control-inline">
+						<#form:input path="epatentabstract" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<!-- <div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div> -->
+			</#form:form>
+			<table id="dataGridOfEPatentsInfo"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGridOfEPatentsInfo').dataGrid({
+	searchForm: $("#searchForm5"),
+	columnModel: [
+		{header:'企业名称', name:'ename', index:'a.ename', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/e/ePatentsInfo/form?id='+row.id+'" class="btnList" data-title="编辑普通公司--专利信息表">'+(val||row.id)+'</a>';
+		}},
+		{header:'专利类型', name:'epatenttype', index:'a.epatenttype', width:150, align:"left"},
+		{header:'申请公布号', name:'epatentpublishedapplicationnumber', index:'a.epatentpublishedapplicationnumber', width:150, align:"left"},
+		{header:'公布日期', name:'epatentpublisheddate', index:'a.epatentpublisheddate', width:150, align:"center"},
+		{header:'专利详情网址', name:'epatentdetail', index:'a.epatentdetail', width:150, align:"left"},
+		{header:'摘要', name:'epatentabstract', index:'a.epatentabstract', width:150, align:"left"},
+		/* {header:'操作', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('e:ePatentsInfo:edit')){ %>
+				actions.push('<a href="${ctx}/e/ePatentsInfo/form?id='+row.id+'" class="btnList" title="编辑普通公司--专利信息表"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/e/ePatentsInfo/delete?id='+row.id+'" class="btnList" title="删除普通公司--专利信息表" data-confirm="确认要删除该普通公司--专利信息表吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}} */
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>
+<% layout('/layouts/default.html', {title: '资质认证管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 资质认证管理
+			</div>
+			<!-- <div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+				<% if(hasPermi('e:eQualityCertification:edit')){ %>
+					<a href="${ctx}/e/eQualityCertification/form" class="btn btn-default btnTool" title="新增资质认证"><i class="fa fa-plus"></i> 新增</a>
+				<% } %>
+			</div> -->
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm6" model="${eQualityCertification}" action="${ctx}/e/eQualityCertification/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">企业名称：</label>
+					<div class="control-inline">
+						<#form:input path="ename" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">发证日期：</label>
+					<div class="control-inline">
+						<#form:input path="ecertificationdateofissue" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">证书类别：</label>
+					<div class="control-inline">
+						<#form:input path="ecertificationtype" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">证书编号：</label>
+					<div class="control-inline">
+						<#form:input path="ecertificationcode" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">截止日期：</label>
+					<div class="control-inline">
+						<#form:input path="ecertificationdeadline" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">证书状态：</label>
+					<div class="control-inline">
+						<#form:input path="ecertificationstatus" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">备注：</label>
+					<div class="control-inline">
+						<#form:input path="ecertificationremarks" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<!-- <div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div> -->
+			</#form:form>
+			<table id="dataGridOfEQualityCertification"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGridOfEQualityCertification').dataGrid({
+	searchForm: $("#searchForm6"),
+	columnModel: [
+		{header:'企业名称', name:'ename', index:'a.ename', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/e/eQualityCertification/form?id='+row.id+'" class="btnList" data-title="编辑资质认证">'+(val||row.id)+'</a>';
+		}},
+		{header:'发证日期', name:'ecertificationdateofissue', index:'a.ecertificationdateofissue', width:150, align:"center"},
+		{header:'证书类别', name:'ecertificationtype', index:'a.ecertificationtype', width:150, align:"left"},
+		{header:'证书编号', name:'ecertificationcode', index:'a.ecertificationcode', width:150, align:"left"},
+		{header:'截止日期', name:'ecertificationdeadline', index:'a.ecertificationdeadline', width:150, align:"center"},
+		{header:'证书状态', name:'ecertificationstatus', index:'a.ecertificationstatus', width:150, align:"left"},
+		{header:'备注', name:'ecertificationremarks', index:'a.ecertificationremarks', width:150, align:"left"},
+		/* {header:'操作', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('e:eQualityCertification:edit')){ %>
+				actions.push('<a href="${ctx}/e/eQualityCertification/form?id='+row.id+'" class="btnList" title="编辑资质认证"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/e/eQualityCertification/delete?id='+row.id+'" class="btnList" title="删除资质认证" data-confirm="确认要删除该资质认证吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}} */
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

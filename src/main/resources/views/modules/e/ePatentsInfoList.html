@@ -1,0 +1,92 @@
+<% layout('/layouts/default.html', {title: '普通公司--专利信息表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 普通公司--专利信息表管理
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+				<% if(hasPermi('e:ePatentsInfo:edit')){ %>
+					<a href="${ctx}/e/ePatentsInfo/form" class="btn btn-default btnTool" title="新增普通公司--专利信息表"><i class="fa fa-plus"></i> 新增</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${ePatentsInfo}" action="${ctx}/e/ePatentsInfo/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">企业名称：</label>
+					<div class="control-inline">
+						<#form:input path="ename" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">专利类型：</label>
+					<div class="control-inline">
+						<#form:input path="epatenttype" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">申请公布号：</label>
+					<div class="control-inline">
+						<#form:input path="epatentpublishedapplicationnumber" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">公布日期：</label>
+					<div class="control-inline">
+						<#form:input path="epatentpublisheddate" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">专利详情网址：</label>
+					<div class="control-inline">
+						<#form:input path="epatentdetail" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">摘要：</label>
+					<div class="control-inline">
+						<#form:input path="epatentabstract" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'企业名称', name:'ename', index:'a.ename', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/e/ePatentsInfo/form?id='+row.id+'" class="btnList" data-title="编辑普通公司--专利信息表">'+(val||row.id)+'</a>';
+		}},
+		{header:'专利类型', name:'epatenttype', index:'a.epatenttype', width:150, align:"left"},
+		{header:'申请公布号', name:'epatentpublishedapplicationnumber', index:'a.epatentpublishedapplicationnumber', width:150, align:"left"},
+		{header:'公布日期', name:'epatentpublisheddate', index:'a.epatentpublisheddate', width:150, align:"center"},
+		{header:'专利详情网址', name:'epatentdetail', index:'a.epatentdetail', width:150, align:"left"},
+		{header:'摘要', name:'epatentabstract', index:'a.epatentabstract', width:150, align:"left"},
+		{header:'操作', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('e:ePatentsInfo:edit')){ %>
+				actions.push('<a href="${ctx}/e/ePatentsInfo/form?id='+row.id+'" class="btnList" title="编辑普通公司--专利信息表"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/e/ePatentsInfo/delete?id='+row.id+'" class="btnList" title="删除普通公司--专利信息表" data-confirm="确认要删除该普通公司--专利信息表吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

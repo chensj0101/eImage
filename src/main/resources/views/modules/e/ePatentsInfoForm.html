@@ -1,0 +1,309 @@
+<% layout('/layouts/default.html', {title: '普通公司--专利信息表管理', libs: ['validate']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header with-border">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${ePatentsInfo.isNewRecord ? '新增普通公司--专利信息表' : '编辑普通公司--专利信息表'}
+			</div>
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+			</div>
+		</div>
+		<#form:form id="inputForm" model="${ePatentsInfo}" action="${ctx}/e/ePatentsInfo/save" method="post" class="form-horizontal">
+			<div class="box-body">
+				<div class="form-unit">基本信息</div>
+				<#form:hidden path="id"/>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 企业名称：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="ename" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 专利类型：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="epatenttype" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 申请公布号：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="epatentpublishedapplicationnumber" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 公布日期：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="epatentpublisheddate" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 专利详情网址：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="epatentdetail" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 摘要：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="epatentabstract" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box-footer">
+				<div class="row">
+					<div class="col-sm-offset-2 col-sm-10">
+						<% if (hasPermi('e:ePatentsInfo:edit')){ %>
+							<button type="submit" class="btn btn-sm btn-primary" id="btnSubmit"><i class="fa fa-check"></i> 保 存</button>&nbsp;
+						<% } %>
+						<button type="button" class="btn btn-sm btn-default" id="btnCancel" onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> 关 闭</button>
+					</div>
+				</div>
+			</div>
+		</#form:form>
+	<div id="logo-panel" style="height:400px"></div>
+	</div>
+</div>
+<% } %>
+<script>
+var ename = $("#ename").val();
+var epatenttype = $("#epatenttype").val();
+var epatentpublishedapplicationnumber = $("#epatentpublishedapplicationnumber").val();
+var epatentpublisheddate = $("#epatentpublisheddate").val();
+var epatentdetail = $("#epatentdetail").val();
+var epatentabstract = $("#epatentabstract").val();
+var myChart = echarts.init(document.getElementById("logo-panel"));
+var option = {
+    tooltip: {
+        show: false
+    },
+    legend: {
+        x: "center",
+        data: ["专利类型", "申请公布号","公布日期", "详情", "摘要"]
+    },
+    animation: false,
+    series: [{
+        categories: [{
+            name: '专利类型',
+            itemStyle: {
+                normal: {
+                    color: "#009800",
+                }
+            }
+        }, {
+            name: '申请公布号',
+            itemStyle: {
+                normal: {
+                    color: "#4592FF",
+                }
+            }
+        }, {
+            name: '公布日期',
+            itemStyle: {
+                normal: {
+                    color: "#4592FF",
+                }
+            }
+        }, {
+            name: '详情',
+            itemStyle: {
+                normal: {
+                    color: "#4592FF",
+                }
+            }
+        }, {
+            name: '摘要',
+            itemStyle: {
+                normal: {
+                    color: "#4592FF",
+                }
+            }
+        }],
+        type: 'graph',
+        layout: 'force',
+        symbol: "circle",
+        symbolSize: 50,
+        roam: true, //禁止用鼠标滚轮缩小放大效果
+        edgeSymbol: ['circle', 'arrow'],
+        edgeSymbolSize: [0, 10],
+        // 连接线上的文字
+        focusNodeAdjacency: true, //划过只显示对应关系
+        edgeLabel: {
+            normal: {
+                show: true,
+                textStyle: {
+                    fontSize: 20
+                },
+                formatter: "{c}"
+            }
+        },
+        categories: [{
+            name: '专利类型',
+            itemStyle: {
+                normal: {
+                    color: "#009800",
+                }
+            }
+        }, {
+            name: '申请公布号',
+            itemStyle: {
+                normal: {
+                    color: "#009800",
+                }
+            }
+        }, {
+            name: '公布日期',
+            itemStyle: {
+                normal: {
+                    color: "#009800",
+                }
+            }
+        }, {
+            name: '详情',
+            itemStyle: {
+                normal: {
+                    color: "#009800",
+                }
+            }
+        }, {
+            name: '摘要',
+            itemStyle: {
+                normal: {
+                    color: "#009800",
+                }
+            }
+        }],
+        lineStyle: {
+            normal: {
+                opacity: 1,
+                width: 2,
+                curveness: 0
+            }
+        },
+        // 圆圈内的文字
+        label: {
+            normal: {
+                show: true
+            }
+        },
+        force: {
+            repulsion: 5000
+        },
+        data: [{
+            name: ename,
+            symbol: '',
+            itemStyle: {
+                normal: {
+                    color: '#f90', //圆点的颜色
+                    label: {
+                        position: 'bottom',
+                        textStyle: {
+                            color: '#f90'
+                        }
+                    }
+                }
+            },
+
+        }, {
+            name: epatenttype,
+            category: 1,
+            itemStyle: {
+                normal: {
+                    color: '#090',
+                },
+                emphasis: {
+                    color: "#000"
+                }
+            }
+        }, {
+            name: epatentpublishedapplicationnumber,
+            category: 1,
+            draggable: true,
+        }, {
+            name: epatentpublisheddate,
+            category: 0,
+            draggable: true,
+        }, {
+            name: epatentdetail,
+            category: 0,
+            draggable: true,
+        }, {
+            name: epatentabstract,
+            category: 0,
+            draggable: true,
+        }],
+        links: [{
+            source: ename,
+            target: epatenttype,
+            value: "专利类型",
+            lineStyle: {
+                normal: {
+                    color: '#38f',
+                    curveness: 0 // 线的弯曲度 0-1之间 越大则歪曲度更大
+                }
+            },
+            label: {
+                normal: {
+                    textStyle: {
+                        color: '#07ac72'
+                    }
+                }
+            }
+        }, {
+            source: ename,
+            target: epatentpublishedapplicationnumber,
+            value: "申请公布号"
+        }, {
+            source: ename,
+            target: epatentpublisheddate,
+            value: "公布日期"
+        }, {
+            source: ename,
+            target: epatentdetail,
+            value: "专利详情"
+        }, {
+            source: ename,
+            target: epatentabstract,
+            value: "摘要"
+        }, ]
+    }]
+};
+myChart.setOption(option);
+//关系图
+$("#inputForm").validate({
+	submitHandler: function(form){
+		js.ajaxSubmitForm($(form), function(data){
+			js.showMessage(data.message);
+			if(data.result == Global.TRUE){
+				js.closeCurrentTabPage(function(contentWindow){
+					contentWindow.page();
+				});
+			}
+		}, "json");
+    }
+});
+</script>

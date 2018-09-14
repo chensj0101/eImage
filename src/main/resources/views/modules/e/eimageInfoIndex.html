@@ -1,0 +1,247 @@
+<% layout('/layouts/default.html', {title: '企业信息首页', libs: ['dataGrid']}){ %>
+			<div id="echartMap" style="width: 1000px;height:1000px;"></div>
+		</div>
+	</div>
+</div>
+<div id="echartMap" style="width: 1000px;height:1000px;"></div>
+<% } %>
+<script type="text/javascript">
+       // 基于准备好的dom，初始化echarts实例
+       var myChart = echarts.init(document.getElementById('echartMap'));
+       var option = {
+           tooltip: {
+               show: true,
+               trigger: 'item',
+               triggerOn: 'click',
+               formatter: "名称:{b}<br />坐标:{c}"
+           },
+           series: [{
+                   name: "广东省企业分布",
+                   type: 'map',//配置显示方式为用户自定义
+                   coordinateSystem: 'geo',
+                   itemStyle: {
+                       normal: {
+                           color: '#46bee9'
+                       }
+                   },
+                   data: coldCar
+               }
+           ],
+           legend: {
+               type: "plain",
+               show: true,
+               orient: 'vertical',
+               top: 'middle',
+               left: 'left',
+               data: [
+                   {
+                       name: "广东省企业分布",
+                       icon: "circle",
+                       textStyle: {
+                           color: "#B766AD"
+                       }
+                   }
+               ]
+           },
+           geo: {//引入广东省的地图
+               map: '广东',
+               label: {
+                   emphasis: {
+                       show: false
+                   }
+               },
+               roam: true,
+               zoom: 1,
+               label:{
+            	   normal:{
+            		   show: true,
+            		   textStyle:{
+            			   fontWeight:500,
+            			   
+            		   }
+            	   },
+            	   emphasis:{
+            		   show: true
+            	   }
+               },
+               itemStyle: {
+                   normal: {
+                	   show: true,
+                       borderColor: '#387ba7',
+                       shadowColor: 'rgba(0, 0, 0, 0.5)',
+                       shadowBlur: 10,
+                       shadowOffsetX: 10
+                   },
+                   emphasis: {
+                	   show: true,
+                       areaColor: '#b3f3f3'
+                   }
+               },
+               regions: [//对不同的区块进行着色
+            	   {
+                       name: '广州市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#B766AD'
+                           }
+                       }
+                   }, {
+                       name: '深圳市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#a9d6fd'
+                           }
+                       }
+                   }, {
+                       name: '珠海市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#3497df'
+                           }
+                       }
+                   }, {
+                       name: '汕尾市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#0d4369'
+                           }
+                       }
+                   }, {
+                       name: '清远市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#005c9b'
+                           }
+                       }
+                   }, {
+                       name: '茂名市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#a9d6fd'
+                           }
+                       }
+                   }, {
+                       name: '揭阳市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#B766AD'
+                           }
+                       }
+                   }, {
+                       name: '汕头市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#005c9b'
+                           }
+                       }
+                   }, {
+                       name: '云浮市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#FF0000'
+                           }
+                       }
+                   }, {
+                       name: '东莞市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#FF359A'
+                           }
+                       }
+                   }, {
+                       name: '中山市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#FF00FF'
+                           }
+                       }
+                   }, {
+                       name: '惠州市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#6F00D2'
+                           }
+                       }
+                   },{
+                       name: '江门市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#0000C6'
+                           }
+                       }
+                   }, {
+                       name: '韶关市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#2694FF'
+                           }
+                       }
+                   },{
+                       name: '佛山市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#00E3E3'
+                           }
+                       }
+                   },{
+                       name: '肇庆市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#4EFEB3'
+                           }
+                       }
+                   },{
+                       name: '梅州市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#005c9b'
+                           }
+                       }
+                   },{
+                       name: '阳江市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#00EC00'
+                           }
+                       }
+                   },{
+                       name: '潮州市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#8CEA00'
+                           }
+                       }
+                   },{
+                       name: '湛江市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#F9F900'
+                           }
+                       }
+                   },{
+                       name: '河源市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#2b97df'
+                           }
+                       }
+                   }
+               ]
+           }
+       };
+       myChart.setOption(option);
+       myChart.on('click', function (params) {
+    	   
+    	   // var eimageInfo = {'地址':params.name}
+    	   window.location.href="${ctx}/e/eBusinessInfo/list?eaddress="+encodeURIComponent(params.name);
+    	   //js.windowOpen("${ctx}/eimage/eimageInfoIndex/form?地址="+encodeURIComponent(params.name), "detail","100%","100%");
+    	    //window.open('${ctx}/eimage/eimageInfoIndex/form?地址='+encodeURIComponent(params.name)); 
+    	    /* window.open('${ctx}/eimage/eimageInfoIndex/listData' + encodeURIComponent(params.name)); */
+    	     //$.ajax({
+    	    //	type: "POST",
+           //    url: "${ctx}/eimage/eimageInfoIndex/listData",
+           //    data: eimageInfo,
+            //   async: false
+    	   // })  */
+    	});
+</script>

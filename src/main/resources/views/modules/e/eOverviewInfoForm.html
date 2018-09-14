@@ -1,0 +1,921 @@
+<% layout('/layouts/default.html', {title: '企业概况', libs: ['validate']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header with-border">
+		<div id="chart-panel" style="width:800px;height:600px"></div>
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 企业概况
+			</div>
+			<!-- <div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+			</div> -->
+		</div>
+		<#form:form id="inputForm" model="${eOverviewInfo}" action="${ctx}/e/eOverviewInfo/save" method="post" class="form-horizontal">
+			<div class="box-body">
+				<div class="form-unit">基本信息</div>
+				
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required ">*</span> 企业名称：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+
+								<#form:hidden path="isNewRecord"/>
+								<#form:input path="ename" maxlength="255" readonly="${!eOverviewInfo.isNewRecord}" class="form-control required"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 企业英文名称：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eenglishname" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 企业董事长：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="echairman" maxlength="255"  class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 企业法人代表：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="elealperson" maxlength="255"  class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 企业总经理：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="egeneralmanager" maxlength="255"  class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 成立日期：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="efounddate" readonly="true" maxlength="20"  class="form-control Wdate"
+									dataFormat="date" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 上市日期：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="elistingdate" readonly="true" maxlength="20"  class="form-control Wdate"
+									dataFormat="date" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 网上发行日期：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eonlinereleasetime" readonly="true" maxlength="20" class="form-control Wdate"
+									dataFormat="date" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 注册资本：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eregisteredcapital" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 管理人员人数：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="enumberofmanager" maxlength="11" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 员工人数：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="enumberofstaff" maxlength="11" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 区域：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="earea" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 注册地址：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eregisteredaddress" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 办公地址：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eofficeaddress" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 联系电话：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eofficephone" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 电子邮箱：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eemailaddress" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 网址：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eweburl" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 传真：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="efaxno" maxlength="11" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 企业简介：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="eintroduction" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box-footer">
+				<div class="row">
+					<div class="col-sm-offset-2 col-sm-10">
+						<% if (hasPermi('e:eOverviewInfo:edit')){ %>
+							<button type="submit" class="btn btn-sm btn-primary" id="btnSubmit"><i class="fa fa-check"></i> 保 存</button>&nbsp;
+						<% } %>
+						<button type="button" class="btn btn-sm btn-default" id="btnCancel" onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> 关 闭</button>
+					</div>
+				</div>
+			</div>
+		</#form:form>
+	</div>
+	<div class="box box-main">
+		<div class="box-header with-border">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 实时股价
+			</div>
+			<!-- <div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+			</div> -->
+		</div>
+		<#form:form id="inputForm" model="${eStockRealtimePrice}" action="${ctx}/e/eStockRealtimePrice/save" method="post" class="form-horizontal">
+			<div class="box-body">
+				<div class="form-unit">基本信息</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required ">*</span> 企业名称：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+
+								<#form:hidden path="isNewRecord"/>
+								<#form:input path="ename" maxlength="255" readonly="${!eStockRealtimePrice.isNewRecord}"  class="form-control required"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 总市值：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="stockmarketvalue" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 市净率：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="stockpb" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 总股本：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="stockequity" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 净利润：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="stocknetmargin" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 流通市值：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="stocktradedmarketvalue" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 每股收益：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="stockearningspershare" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 流通股本：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="stockflowofequity" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 营业收入：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="stockoperatingincom" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 市盈率：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="stockpriceearningsratio" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 行业：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="stockvocation" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-unit">股价信息图</div>
+			<div id="main" style="height:400px"></div>
+		    <div id="main2" style="height:400px"></div>
+			<!-- <div class="box-footer">
+				<div class="row">
+					<div class="col-sm-offset-2 col-sm-10">
+						<% if (hasPermi('e:eStockRealtimePrice:edit')){ %>
+							<button type="submit" class="btn btn-sm btn-primary" id="btnSubmit"><i class="fa fa-check"></i> 保 存</button>&nbsp;
+						<% } %>
+						<button type="button" class="btn btn-sm btn-default" id="btnCancel" onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> 关 闭</button>
+					</div>
+				</div>
+			</div> -->
+		
+		</#form:form>
+		
+	</div>
+</div>
+<% } %>
+<script>
+var stockmarketvalue = $("#stockmarketvalue").val();
+stockmarketvalue = stockmarketvalue.substring(0, stockmarketvalue.lastIndexOf('亿'));
+var stockequity = $("#stockequity").val();
+stockequity = stockequity.substr(0, stockequity.lastIndexOf('亿'));
+var stocktradedmarketvalue = $("#stocktradedmarketvalue").val();
+stocktradedmarketvalue = stocktradedmarketvalue.substr(0, stocktradedmarketvalue.lastIndexOf('亿'));
+var stocknetmargin = $("#stocknetmargin").val();
+stocknetmargin = stocknetmargin.substr(0, stocknetmargin.lastIndexOf('亿'));
+var stockflowofequity = $("#stockflowofequity").val();
+stockflowofequity = stockflowofequity.substr(0, stockflowofequity.lastIndexOf('亿'));
+var stockoperatingincom = $("#stockoperatingincom").val();
+stockoperatingincom = stockoperatingincom.substr(0, stockoperatingincom.lastIndexOf('亿'));
+var stockpb = $("#stockpb").val();
+var stockpriceearningsratio = $("#stockpriceearningsratio").val();
+var stockearningspershare = $("#stockearningspershare").val();
+
+//关系图
+var ename = $("#ename").val();
+
+var myChart = echarts.init(document.getElementById("chart-panel"));
+option = {
+	    title: {
+	        text: '企业上市信息结构'
+	    },
+	    tooltip: {},
+	    animationDurationUpdate: 1500,
+	    animationEasingUpdate: 'quinticInOut',
+	    series : [
+	        {
+	            type: 'graph',
+	            layout: 'force',
+	            symbolSize: 100,
+	            roam: true,
+	label: {
+	    normal: {
+	        show:true,
+	        formatter:  function( data ) {
+	            return '{green|\n' + data.name + '}';
+	        },
+	        rich: {
+	           /*  gray: {
+	                color: 'gray'
+	            }, */
+	            /* green: {
+	                color: 'green'
+	            } */
+	        }
+	    }
+	},
+	            //edgeSymbol: ['circle', 'arrow'],
+	            edgeSymbolSize: [4, 10],
+	            edgeLabel: {
+	                normal: {
+	                    textStyle: {
+	                        fontSize: 20
+	                    }
+	                }
+	            },
+	            data: [{
+	                name: ename,
+	                x: 360,
+	                y: 100,
+	                //symbolSize: 50,
+	            }, {
+	                name: '上市注册信息',
+	                x: 700,
+	                y: 219
+	            }, {
+	                name: '实时股价',
+	                x: 550,
+	                y: 100
+	            }, {
+	                name: '主要股东',
+	                x: 550,
+	                y: 300
+	            }],
+	            // links: [],
+	            links: [{
+	                source: ename,
+	                target: '上市注册信息'
+	            }, {
+	                source: ename,
+	                target: '实时股价'
+	            }, {
+	                source: ename,
+	                target: '主要股东'
+	            }],
+	            animation:true,
+	            markArea:{
+	                animation:false
+	            },
+	            markPoint:{
+	                symbol: 'arrow',
+	            },
+	                        markLine:{
+	                symbol: 'arrow',
+	                precision:5
+	            },
+	               
+	                        lineStyle: {
+	                normal: {
+	                    opacity: 0.9,
+	                    width: 2,
+	                    curveness: 0
+	                }
+	            },
+	                            force: {
+	                    repulsion:[0, 500],
+	                    edgeLength: [0, 200],
+	                    layoutAnimation:false,
+	                    //initLayout:'circle',
+	                    gravity:0
+	                }
+	        }
+	    ]
+	};
+myChart.setOption(option);
+//关系图
+//alert(aaa);
+var myChart = echarts.init(document.getElementById("main"));
+
+var option={
+        tooltip:{
+            show:true
+        },
+        legend:{
+            data:["实时股价（单位：亿）"]
+        },
+        xAxis:[{
+            type:'category',//默认为类目
+            data : ["总市值","总股本","流通市值","净利润","流通股本","营业收入"]
+        }],
+        yAxis : [
+            {
+                type : 'value'//默认为值类型
+            }
+        ],
+        
+        series : [
+            {
+            	
+                "name":"实时股价（单位：亿）",
+                "type":"bar",
+                "data":[stockmarketvalue, stockequity, stocktradedmarketvalue, stocknetmargin, stockflowofequity, stockoperatingincom]
+            }
+        ]
+
+    };
+myChart.setOption(option);
+    
+var myChart = echarts.init(document.getElementById("main2"));
+
+var option={
+        tooltip:{
+            show:true
+        },
+        legend:{
+            data:["实时股价（单位：1）"]
+        },
+        xAxis:[{
+            type:'category',//默认为类目
+            data : ["市净率","市盈率","每股收益"]
+        }],
+        yAxis : [
+            {
+                type : 'value'//默认为值类型
+            }
+        ],
+        
+        series : [
+            {
+            	
+                "name":"实时股价（单位：1）",
+                "type":"bar",
+                "data":[stockpb, stockpriceearningsratio,stockearningspershare]
+            }
+        ]
+
+    };
+myChart.setOption(option);
+$("#inputForm").validate({
+	submitHandler: function(form){
+		js.ajaxSubmitForm($(form), function(data){
+			js.showMessage(data.message);
+			if(data.result == Global.TRUE){
+				js.closeCurrentTabPage(function(contentWindow){
+					contentWindow.page();
+				});
+			}
+		}, "json");
+    }
+});
+$("#inputForm").validate({
+	submitHandler: function(form){
+		js.ajaxSubmitForm($(form), function(data){
+			js.showMessage(data.message);
+			if(data.result == Global.TRUE){
+				js.closeCurrentTabPage(function(contentWindow){
+					contentWindow.page();
+				});
+			}
+		}, "json");
+    }
+});
+$("#inputForm").validate({
+	submitHandler: function(form){
+		js.ajaxSubmitForm($(form), function(data){
+			js.showMessage(data.message);
+			if(data.result == Global.TRUE){
+				js.closeCurrentTabPage(function(contentWindow){
+					contentWindow.page();
+				});
+			}
+		}, "json");
+    }
+});
+$("#inputForm").validate({
+	submitHandler: function(form){
+		js.ajaxSubmitForm($(form), function(data){
+			js.showMessage(data.message);
+			if(data.result == Global.TRUE){
+				js.closeCurrentTabPage(function(contentWindow){
+					contentWindow.page();
+				});
+			}
+		}, "json");
+    }
+});
+</script>
+<% layout('/layouts/default.html', {title: '主要股东', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 主要股东
+			</div>
+			<!-- <div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+				<% if(hasPermi('e:eStockholder:edit')){ %>
+					<a href="${ctx}/e/eStockholder/form" class="btn btn-default btnTool" title="新增主要股东"><i class="fa fa-plus"></i> 新增</a>
+				<% } %>
+			</div> -->
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${eStockholder}" action="${ctx}/e/eStockholder/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">企业名称：</label>
+					<div class="control-inline">
+						<#form:input path="ename" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">主要股东名称：</label>
+					<div class="control-inline">
+						<#form:input path="estockholdername" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">持股数：</label>
+					<div class="control-inline">
+						<#form:input path="estockholdernumberofshares" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">股份类型：</label>
+					<div class="control-inline">
+						<#form:input path="estockholdertype" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">持股比例：</label>
+					<div class="control-inline">
+						<#form:input path="estockholderratio" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">增减持股数：</label>
+					<div class="control-inline">
+						<#form:input path="estockholderincanddec" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">变化比例：</label>
+					<div class="control-inline">
+						<#form:input path="estockholderratioofchange" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<!-- <div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div> -->
+			</#form:form>
+			<table id="dataGrid"></table>
+			<button onclick="estockholder()">画像展示</button>
+			<div id="estockholder-panel" style="width:800px;height:600px"></div>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'企业名称', name:'ename', index:'a.ename', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/e/eStockholder/form?id='+row.id+'" class="btnList" data-title="编辑主要股东">'+(val||row.id)+'</a>';
+		}},
+		{header:'主要股东名称', name:'estockholdername', index:'a.estockholdername', width:150, align:"left"},
+		{header:'持股数', name:'estockholdernumberofshares', index:'a.estockholdernumberofshares', width:150, align:"left"},
+		{header:'股份类型', name:'estockholdertype', index:'a.estockholdertype', width:150, align:"left"},
+		/* {header:'操作', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('e:eStockholder:edit')){ %>
+				actions.push('<a href="${ctx}/e/eStockholder/form?id='+row.id+'" class="btnList" title="编辑主要股东"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/e/eStockholder/delete?id='+row.id+'" class="btnList" title="删除主要股东" data-confirm="确认要删除该主要股东吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}} */
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+function estockholder(){
+	var obj = $("#dataGrid");
+	//var idd=$("#dataGrid").getDataIDs();
+	var rowIds=$("#dataGrid").jqGrid('getDataIDs');
+	var arrayData = new Array();
+	if (rowIds.length > 0) {
+		
+		for (var i = 0; i < rowIds.length; i++) {
+			
+			  //rowData=obj.getRowData(rowid);//这里rowid=rowIds[i];
+			  arrayData.push(obj.getRowData(rowIds[i]));
+			  //alert(arrayData[i].estockholdername+arrayData[i].estockholdernumberofshares);
+			  
+		}
+	};
+
+var myChart = echarts.init(document.getElementById("estockholder-panel"));
+//app.title = '环形图';
+
+option = {
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        x: 'left',
+        data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+    },
+    series: [
+        {
+            name:'股东信息',
+            type:'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+                normal: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: false
+                }
+            },
+            data:(function(){
+                var arrNum = [];
+                
+                for (var i = 0; i < arrayData.length; i++) {
+                      arrNum.push({"value": arrayData[i].estockholdernumberofshares,"name":arrayData[i].estockholdername});
+                      }
+                       
+                return arrNum; 
+               })(),
+        }
+    ]
+};
+myChart.setOption(option);
+}
+//获取当前表格的所有数据
+/* function test(){
+	var obj = $("#dataGrid");
+	//var idd=$("#dataGrid").getDataIDs();
+	var rowIds=$("#dataGrid").jqGrid('getDataIDs');
+	var arrayData = new Array();
+	if (rowIds.length > 0) {
+		
+		for (var i = 0; i < rowIds.length; i++) {
+			
+			  //rowData=obj.getRowData(rowid);//这里rowid=rowIds[i];
+			  arrayData.push(obj.getRowData(rowIds[i]));
+			  //alert(arrayData[i].estockholdername+arrayData[i].estockholdernumberofshares);
+			  
+		}
+	};
+	
+var myChart = echarts.init(document.getElementById("chart-panel"));
+option = {
+	    title: {
+	        text: '企业主要股东'
+	    },
+	    tooltip: {},
+	    animationDurationUpdate: 1500,
+	    animationEasingUpdate: 'quinticInOut',
+	    series : [
+	        {
+	            type: 'graph',
+	            layout: 'force',
+	            symbolSize: 100,
+	            roam: true,
+	label: {
+	    normal: {
+	        show:true,
+	        formatter:  function( data ) {
+	            return '{green|\n' + data.name + '}';
+	        },
+	        rich: {
+	           //  gray: {
+	           //     color: 'gray'
+	           // },
+	            // green: {
+	             //   color: 'green'
+	          //  } 
+	        }
+	    }
+	},
+	            //edgeSymbol: ['circle', 'arrow'],
+	            edgeSymbolSize: [4, 10],
+	            edgeLabel: {
+	                normal: {
+	                    textStyle: {
+	                        fontSize: 20
+	                    }
+	                }
+	            },
+	           
+	             data: [{
+	                name: '珠海格力电器股份有限公司',
+	                x: 360,
+	                y: 100,
+	                //symbolSize: 50,
+	            }, {
+	                name: '全国社保基金一零八组合',
+	                x: 700,
+	                y: 219
+	            }, {
+	                name: '高瓴资本管理有限公司-HCM中国基金',
+	                x: 550,
+	                y: 100
+	            }, {
+	                name: '中国人寿保险股份有限公司-分红-个人分红-005L-FH002深',
+	                x: 550,
+	                y: 300
+	            },{
+	                name: '中央汇金资产管理有限责任公司',
+	                x: 550,
+	                y: 100
+	            },{
+	                name: '前海人寿保险股份有限公司-海利年年',
+	                x: 550,
+	                y: 300
+	            },{
+	                name: '中国证券金融股份有限公司',
+	                x: 550,
+	                y: 300
+	            },{
+	                name: '香港中央结算有限公司',
+	                x: 550,
+	                y: 300
+	            },
+	            {
+	                name: '河北京海担保投资有限公司',
+	                x: 550,
+	                y: 300
+	            }], 
+	            // links: [],
+	            links: [{
+	                source: '珠海格力电器股份有限公司',
+	                target: '全国社保基金一零八组合'
+	            }, {
+	                source: '珠海格力电器股份有限公司',
+	                target: '高瓴资本管理有限公司-HCM中国基金'
+	            }, {
+	                source: '珠海格力电器股份有限公司',
+	                target: '中国人寿保险股份有限公司-分红-个人分红-005L-FH002深'
+	            },{
+	                source: '珠海格力电器股份有限公司',
+	                target: '中央汇金资产管理有限责任公司'
+	            },{
+	                source: '珠海格力电器股份有限公司',
+	                target: '前海人寿保险股份有限公司-海利年年'
+	            },{
+	                source: '珠海格力电器股份有限公司',
+	                target: '中国证券金融股份有限公司'
+	            },{
+	                source: '珠海格力电器股份有限公司',
+	                target: '香港中央结算有限公司'
+	            },{
+	                source: '珠海格力电器股份有限公司',
+	                target: '河北京海担保投资有限公司'
+	            }], 
+	            animation:true,
+	            markArea:{
+	                animation:false
+	            },
+	            markPoint:{
+	                symbol: 'arrow',
+	            },
+	                        markLine:{
+	                symbol: 'arrow',
+	                precision:5
+	            },
+	               
+	                        lineStyle: {
+	                normal: {
+	                    opacity: 0.9,
+	                    width: 2,
+	                    curveness: 0
+	                }
+	            },
+	                            force: {
+	                    repulsion:[0, 500],
+	                    edgeLength: [0, 200],
+	                    layoutAnimation:false,
+	                    //initLayout:'circle',
+	                    gravity:0
+	                }
+	        }
+	    ] 
+	};
+
+myChart.setOption(option);
+
+} */
+//关系图
+</script>

@@ -1,0 +1,148 @@
+<% layout('/layouts/default.html', {title: '企业工商信息', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 企业工商信息
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+				<% if(hasPermi('e:eBusinessInfo:edit')){ %>
+					<a href="${ctx}/e/eBusinessInfo/form" class="btn btn-default btnTool" title="新增企业工商信息"><i class="fa fa-plus"></i> 新增</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${eBusinessInfo}" action="${ctx}/e/eBusinessInfo/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">企业名称：</label>
+					<div class="control-inline">
+						<#form:input path="ename" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">统一社会信用代码：</label>
+					<div class="control-inline">
+						<#form:input path="eunifiedsocialcreditcode" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">组织机构代码：</label>
+					<div class="control-inline">
+						<#form:input path="eorganizationcode" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">注册号：</label>
+					<div class="control-inline">
+						<#form:input path="eregistrationid" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">经营状态：</label>
+					<div class="control-inline">
+						<#form:input path="emanagestatus" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">所属行业：</label>
+					<div class="control-inline">
+						<#form:input path="eclass" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">成立日期：</label>
+					<div class="control-inline">
+						<#form:input path="eregisterdate" readonly="true" maxlength="20" class="form-control Wdate-date"
+							dataFormat="date" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">公司类型：</label>
+					<div class="control-inline">
+						<#form:input path="etype" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">经营期限：</label>
+					<div class="control-inline">
+						<#form:input path="ebusnissallotedtime" readonly="true" maxlength="20" class="form-control Wdate-date"
+							dataFormat="date" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">法定代表人：</label>
+					<div class="control-inline">
+						<#form:input path="elegalrepresentative" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">发照日期：</label>
+					<div class="control-inline">
+						<#form:input path="eissueofdate" readonly="true" maxlength="20" class="form-control Wdate-date"
+							dataFormat="date" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">注册资本：</label>
+					<div class="control-inline">
+						<#form:input path="eregisteredcapital" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">登记机关：</label>
+					<div class="control-inline">
+						<#form:input path="eregistrationauthority" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">企业地址：</label>
+					<div class="control-inline">
+						<#form:input path="eaddress" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">经营范围：</label>
+					<div class="control-inline">
+						<#form:input path="escopeofbusiness" maxlength="500" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'企业名称', name:'ename', index:'a.ename', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/e/eBusinessInfo/form?ename='+row.ename+'" class="btnList" data-title="编辑企业工商信息">'+(val||row.id)+'</a>';
+		}},
+		{header:'统一社会信用代码', name:'eunifiedsocialcreditcode', index:'a.eunifiedsocialcreditcode', width:150, align:"left"},
+		{header:'组织机构代码', name:'eorganizationcode', index:'a.eorganizationcode', width:150, align:"left"},
+		{header:'经营状态', name:'emanagestatus', index:'a.emanagestatus', width:150, align:"left"},
+		{header:'法定代表人', name:'elegalrepresentative', index:'a.elegalrepresentative', width:150, align:"left"},
+		{header:'操作', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('e:eBusinessInfo:edit')){ %>
+				actions.push('<a href="${ctx}/e/eBusinessInfo/form?ename='+row.ename+'" class="btnList" title="编辑企业工商信息"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/e/eBusinessInfo/delete?ename='+row.ename+'" class="btnList" title="删除企业工商信息" data-confirm="确认要删除该企业工商信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

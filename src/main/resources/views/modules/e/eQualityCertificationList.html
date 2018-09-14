@@ -1,0 +1,99 @@
+<% layout('/layouts/default.html', {title: '资质认证管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 资质认证管理
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+				<% if(hasPermi('e:eQualityCertification:edit')){ %>
+					<a href="${ctx}/e/eQualityCertification/form" class="btn btn-default btnTool" title="新增资质认证"><i class="fa fa-plus"></i> 新增</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${eQualityCertification}" action="${ctx}/e/eQualityCertification/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">企业名称：</label>
+					<div class="control-inline">
+						<#form:input path="ename" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">发证日期：</label>
+					<div class="control-inline">
+						<#form:input path="ecertificationdateofissue" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">证书类别：</label>
+					<div class="control-inline">
+						<#form:input path="ecertificationtype" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">证书编号：</label>
+					<div class="control-inline">
+						<#form:input path="ecertificationcode" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">截止日期：</label>
+					<div class="control-inline">
+						<#form:input path="ecertificationdeadline" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">证书状态：</label>
+					<div class="control-inline">
+						<#form:input path="ecertificationstatus" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">备注：</label>
+					<div class="control-inline">
+						<#form:input path="ecertificationremarks" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'企业名称', name:'ename', index:'a.ename', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/e/eQualityCertification/form?id='+row.id+'" class="btnList" data-title="编辑资质认证">'+(val||row.id)+'</a>';
+		}},
+		{header:'发证日期', name:'ecertificationdateofissue', index:'a.ecertificationdateofissue', width:150, align:"center"},
+		{header:'证书类别', name:'ecertificationtype', index:'a.ecertificationtype', width:150, align:"left"},
+		{header:'证书编号', name:'ecertificationcode', index:'a.ecertificationcode', width:150, align:"left"},
+		{header:'截止日期', name:'ecertificationdeadline', index:'a.ecertificationdeadline', width:150, align:"center"},
+		{header:'证书状态', name:'ecertificationstatus', index:'a.ecertificationstatus', width:150, align:"left"},
+		{header:'备注', name:'ecertificationremarks', index:'a.ecertificationremarks', width:150, align:"left"},
+		{header:'操作', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('e:eQualityCertification:edit')){ %>
+				actions.push('<a href="${ctx}/e/eQualityCertification/form?id='+row.id+'" class="btnList" title="编辑资质认证"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/e/eQualityCertification/delete?id='+row.id+'" class="btnList" title="删除资质认证" data-confirm="确认要删除该资质认证吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

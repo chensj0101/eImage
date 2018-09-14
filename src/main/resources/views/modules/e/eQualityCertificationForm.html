@@ -1,0 +1,287 @@
+<% layout('/layouts/default.html', {title: '资质认证管理', libs: ['validate']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header with-border">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${eQualityCertification.isNewRecord ? '新增资质认证' : '编辑资质认证'}
+			</div>
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+			</div>
+		</div>
+		<#form:form id="inputForm" model="${eQualityCertification}" action="${ctx}/e/eQualityCertification/save" method="post" class="form-horizontal">
+			<div class="box-body">
+				<div class="form-unit">基本信息</div>
+				<#form:hidden path="id"/>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 企业名称：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="ename" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 发证日期：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="ecertificationdateofissue" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 证书类别：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="ecertificationtype" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 证书编号：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="ecertificationcode" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 截止日期：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="ecertificationdeadline" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 证书状态：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="ecertificationstatus" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> 备注：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input path="ecertificationremarks" maxlength="255" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box-footer">
+				<div class="row">
+					<div class="col-sm-offset-2 col-sm-10">
+						<% if (hasPermi('e:eQualityCertification:edit')){ %>
+							<button type="submit" class="btn btn-sm btn-primary" id="btnSubmit"><i class="fa fa-check"></i> 保 存</button>&nbsp;
+						<% } %>
+						<button type="button" class="btn btn-sm btn-default" id="btnCancel" onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> 关 闭</button>
+					</div>
+				</div>
+			</div>
+		</#form:form>
+	<div id="logo-panel" style="height:400px"></div>
+	</div>
+</div>
+<% } %>
+<script>
+var ename = $("#ename").val();
+var ecertificationdateofissue = $("#ecertificationdateofissue").val();
+var ecertificationtype = $("#ecertificationtype").val();
+var ecertificationcode = $("#ecertificationcode").val();
+var ecertificationdeadline = $("#ecertificationdeadline").val();
+var ecertificationstatus = $("#ecertificationstatus").val();
+var ecertificationremarks = $("#ecertificationremarks").val();
+var myChart = echarts.init(document.getElementById("logo-panel"));
+var option = {
+    tooltip: {
+        show: false
+    },
+    legend: {
+        x: "center",
+        data: ["发证日期", "证书类别", "证书编号", "截止日期", "证书状态", "备注"]
+    },
+    animation: false,
+    series: [{
+        categories: [{
+            name: '发证日期',
+            itemStyle: {
+                normal: {
+                    color: "#009800",
+                }
+            }
+        }, {
+            name: '证书类别',
+            itemStyle: {
+                normal: {
+                    color: "#4592FF",
+                }
+            }
+        }],
+        type: 'graph',
+        layout: 'force',
+        symbol: "circle",
+        symbolSize: 50,
+        roam: true, //禁止用鼠标滚轮缩小放大效果
+        edgeSymbol: ['circle', 'arrow'],
+        edgeSymbolSize: [0, 10],
+        // 连接线上的文字
+        focusNodeAdjacency: true, //划过只显示对应关系
+        edgeLabel: {
+            normal: {
+                show: true,
+                textStyle: {
+                    fontSize: 20
+                },
+                formatter: "{c}"
+            }
+        },
+        categories: [{
+            name: '发证日期',
+            itemStyle: {
+                normal: {
+                    color: "#009800",
+                }
+            }
+        }, {
+            name: '证书类别',
+            itemStyle: {
+                normal: {
+                    color: "#009800",
+                }
+            }
+        }],
+        lineStyle: {
+            normal: {
+                opacity: 1,
+                width: 2,
+                curveness: 0
+            }
+        },
+        // 圆圈内的文字
+        label: {
+            normal: {
+                show: true
+            }
+        },
+        force: {
+            repulsion: 5000
+        },
+        data: [{
+            name: ename,
+            symbol: '',
+            itemStyle: {
+                normal: {
+                    color: '#f90', //圆点的颜色
+                    label: {
+                        position: 'bottom',
+                        textStyle: {
+                            color: '#f90'
+                        }
+                    }
+                }
+            },
+
+        }, {
+            name: ecertificationdateofissue,
+            category: 1,
+            itemStyle: {
+                normal: {
+                    color: '#090',
+                },
+                emphasis: {
+                    color: "#000"
+                }
+            }
+        }, {
+            name: ecertificationtype,
+            category: 1,
+            draggable: true,
+        }, {
+            name: ecertificationcode,
+            category: 0,
+            draggable: true,
+        }, {
+            name: ecertificationdeadline,
+            category: 0,
+            draggable: true,
+        }, {
+            name: ecertificationstatus,
+            category: 0,
+            draggable: true,
+        }, {
+            name: ecertificationremarks,
+            category: 0,
+            draggable: true,
+        }],
+        links: [{
+            source: ename,
+            target: ecertificationdateofissue,
+            value: "发证日期",
+            lineStyle: {
+                normal: {
+                    color: '#38f',
+                    curveness: 0 // 线的弯曲度 0-1之间 越大则歪曲度更大
+                }
+            },
+            label: {
+                normal: {
+                    textStyle: {
+                        color: '#07ac72'
+                    }
+                }
+            }
+        }, {
+            source: ename,
+            target: ecertificationtype,
+            value: "证书类别"
+        }, {
+            source: ename,
+            target: ecertificationcode,
+            value: "证书编号"
+        }, {
+            source: ename,
+            target: ecertificationdeadline,
+            value: "截止日期"
+        }, {
+            source: ename,
+            target: ecertificationstatus,
+            value: "证书状态"
+        }, {
+            source: ename,
+            target: ecertificationremarks,
+            value: "备注"
+        }, ]
+    }]
+};
+myChart.setOption(option);
+//关系图
+$("#inputForm").validate({
+	submitHandler: function(form){
+		js.ajaxSubmitForm($(form), function(data){
+			js.showMessage(data.message);
+			if(data.result == Global.TRUE){
+				js.closeCurrentTabPage(function(contentWindow){
+					contentWindow.page();
+				});
+			}
+		}, "json");
+    }
+});
+</script>

@@ -1,0 +1,141 @@
+<% layout('/layouts/default.html', {title: '主要人员', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 主要人员
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+				<% if(hasPermi('e:eKeyPerson:edit')){ %>
+					<a href="${ctx}/e/eKeyPerson/form" class="btn btn-default btnTool" title="普通公司--主要人员"><i class="fa fa-plus"></i> 新增</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${eKeyPerson}" action="${ctx}/e/eKeyPerson/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">企业名称：</label>
+					<div class="control-inline">
+						<#form:input path="ename" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">人员名称：</label>
+					<div class="control-inline">
+						<#form:input path="epersonname" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">职位：</label>
+					<div class="control-inline">
+						<#form:input path="epersonposition" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<button onclick="test()">画像</button>
+			<div id="chart-panel" style="width:800px;height:600px"></div>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'企业名称', name:'ename', index:'a.ename', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/e/eKeyPerson/form?id='+row.id+'" class="btnList" data-title="编辑普通公司--主要人员表">'+(val||row.id)+'</a>';
+		}},
+		{header:'人员名称', name:'epersonname', index:'a.epersonname', width:150, align:"left"},
+		{header:'职位', name:'epersonposition', index:'a.epersonposition', width:150, align:"left"},
+		{header:'操作', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('e:eKeyPerson:edit')){ %>
+				actions.push('<a href="${ctx}/e/eKeyPerson/form?id='+row.id+'" class="btnList" title="编辑普通公司--主要人员表"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/e/eKeyPerson/delete?id='+row.id+'" class="btnList" title="删除普通公司--主要人员表" data-confirm="确认要删除该普通公司--主要人员表吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+
+function test(){
+	var obj = $("#dataGrid");
+	//var idd=$("#dataGrid").getDataIDs();
+	var rowIds=$("#dataGrid").jqGrid('getDataIDs');
+	var arrayData = new Array();
+	if (rowIds.length > 0) {
+		
+		for (var i = 0; i < rowIds.length; i++) {
+			
+			  //rowData=obj.getRowData(rowid);//这里rowid=rowIds[i];
+			  arrayData.push(obj.getRowData(rowIds[i]));
+			  //alert(arrayData[i].estockholdername+arrayData[i].estockholdernumberofshares);
+			  
+		}
+	};
+
+var myChart = echarts.init(document.getElementById("chart-panel"));
+//app.title = '环形图';
+
+option = {
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        x: 'left',
+        data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+    },
+    series: [
+        {
+            name:'主要人员',
+            type:'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+                normal: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: false
+                }
+            },
+            data:(function(){
+                var arrNum = [];
+                
+                for (var i = 0; i < arrayData.length; i++) {
+                      arrNum.push({"value": 1,"name":arrayData[i].epersonname});
+                      }
+                       
+                return arrNum; 
+               })(),
+        }
+    ]
+};
+myChart.setOption(option);
+}
+</script>

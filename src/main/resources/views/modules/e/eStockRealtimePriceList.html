@@ -1,0 +1,120 @@
+<% layout('/layouts/default.html', {title: '实时股价管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> 实时股价管理
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+				<% if(hasPermi('e:eStockRealtimePrice:edit')){ %>
+					<a href="${ctx}/e/eStockRealtimePrice/form" class="btn btn-default btnTool" title="新增实时股价"><i class="fa fa-plus"></i> 新增</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${eStockRealtimePrice}" action="${ctx}/e/eStockRealtimePrice/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">企业名称：</label>
+					<div class="control-inline">
+						<#form:input path="ename" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">总市值：</label>
+					<div class="control-inline">
+						<#form:input path="stockmarketvalue" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">市净率：</label>
+					<div class="control-inline">
+						<#form:input path="stockpb" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">总股本：</label>
+					<div class="control-inline">
+						<#form:input path="stockequity" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">净利润：</label>
+					<div class="control-inline">
+						<#form:input path="stocknetmargin" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">流通市值：</label>
+					<div class="control-inline">
+						<#form:input path="stocktradedmarketvalue" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">每股收益：</label>
+					<div class="control-inline">
+						<#form:input path="stockearningspershare" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">流通股本：</label>
+					<div class="control-inline">
+						<#form:input path="stockflowofequity" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">营业收入：</label>
+					<div class="control-inline">
+						<#form:input path="stockoperatingincom" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">市盈率：</label>
+					<div class="control-inline">
+						<#form:input path="stockpriceearningsratio" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">行业：</label>
+					<div class="control-inline">
+						<#form:input path="stockvocation" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">查询</button>
+					<button type="reset" class="btn btn-default btn-sm">重置</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'企业名称', name:'ename', index:'a.ename', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/e/eStockRealtimePrice/form?ename='+row.ename+'" class="btnList" data-title="编辑实时股价">'+(val||row.id)+'</a>';
+		}},
+		{header:'总市值', name:'stockmarketvalue', index:'a.stockmarketvalue', width:150, align:"left"},
+		{header:'市净率', name:'stockpb', index:'a.stockpb', width:150, align:"left"},
+		{header:'总股本', name:'stockequity', index:'a.stockequity', width:150, align:"left"},
+		{header:'操作', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('e:eStockRealtimePrice:edit')){ %>
+				actions.push('<a href="${ctx}/e/eStockRealtimePrice/form?ename='+row.ename+'" class="btnList" title="编辑实时股价"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/e/eStockRealtimePrice/delete?ename='+row.ename+'" class="btnList" title="删除实时股价" data-confirm="确认要删除该实时股价吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>
